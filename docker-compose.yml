@@ -1,0 +1,26 @@
+---
+version: "3.6"
+services:
+  hammer:
+    image: local/hammer:${RUBY:-latest}${RUBY_VER:-}${IMG_VARIANT:-}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RUBY: ${RUBY:-ruby}
+        RUBY_VER: ${RUBY_VER:-}
+        IMG_VARIANT: ${IMG_VARIANT:-alpine}
+    enviroment:
+      FOREMAN_USER: ${FOREMAN_USER:-}
+      FOREMAN_PASS: ${FOREMAN_PASS:-}
+    volumes:
+    - type: bind
+      source: ./config
+      target: /home/hammer/config
+    - type: volume
+      source: sessions
+      target: ${HAMMER_SESSIONS_DIR:-/home/hammer/.hammer/sessions}
+
+volumes:
+  sessions:
+
