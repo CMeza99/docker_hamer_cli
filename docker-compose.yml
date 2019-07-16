@@ -10,7 +10,7 @@ services:
         RUBY: ${RUBY:-ruby}
         RUBY_VER: ${RUBY_VER:-}
         IMG_VARIANT: ${IMG_VARIANT:-alpine}
-    enviroment:
+    environment:
       FOREMAN_USER: ${FOREMAN_USER:-}
       FOREMAN_PASS: ${FOREMAN_PASS:-}
     volumes:
