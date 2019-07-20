@@ -9,7 +9,7 @@ DOCKER_UID=${DOCKER_UID:-888}
 
 common_run() {
   cd /home/hammer
-  bundle --no-cache --clean --system --with hammer
+  bundle --no-cache --clean --system
   chown -R hammer:hammer /home/hammer
   cd -
   su ${DOCKER_USER} -c '
