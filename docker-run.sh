@@ -8,20 +8,24 @@ DOCKER_UID=${DOCKER_UID:-888}
 
 
 common_run() {
-  cd /tmp
-  git clone https://github.com/CMeza99/katello-cvmanager.git
-  cd katello-cvmanager
-  gem build cvmanager.gemspec
-  mkdir -p /tmp/repo/gems
-  cp *.gem /tmp/repo/gems
+  BUNDLE_CACHE_ALL=true
+  BUNDLE_CLEAN=true
+  BUNDLE_SUPPRESS_INSTALL_USING_MESSAGES=true
+
+  wget -O- https://github.com/CMeza99/katello-cvmanager/tarball/master | tar x -zC /tmp
+  KCV_SOURCE="$(find /tmp -type d -maxdepth 1 -name \*katello-cvmanager\*)"
+  cd "${KCV_SOURCE}"
   gem install builder
+  gem build --force cvmanager.gemspec
+  mkdir -p /tmp/repo/gems
+  mv *.gem /tmp/repo/gems
   cd /tmp/repo
   gem generate_index
 
   cd /home/hammer
   bundle --no-cache --clean --system
   chown -R hammer:hammer /home/hammer
-  cd -
+
   su ${DOCKER_USER} -c '
     export CONFIG_PATH="${HOME}/.hammer"
     mkdir -p "${CONFIG_PATH}/cli.modules.d/"
@@ -33,17 +37,22 @@ common_run() {
       done
     done
     '
+
+  rm -rf -- "${KCV_SOURCE}" /tmp/repo /usr/local/bundle/cache/*
 }
 
 
 if [ "${OS}" = 'debian' ]; then
   useradd -ms /bin/sh -u ${DOCKER_UID} -UG users ${DOCKER_USER}
   apt-get -qq update
+
   DEBIAN_FRONTEND=noninteractive apt-get -yqq --no-install-suggests --no-install-recommends install \
     git \
     libc6-dev gcc g++ make \
      > /dev/null
+
   common_run
+
   DEBIAN_FRONTEND=noninteractive apt-get -yqq --no-install-suggests --no-install-recommends purge
     libc6-dev gcc g++ make \
      > /dev/null
@@ -53,14 +62,19 @@ elif [ "${OS}" = 'alpine' ]; then
   addgroup -g ${DOCKER_UID} ${DOCKER_USER}
   adduser -s /bin/sh -u ${DOCKER_UID} -DG ${DOCKER_USER} ${DOCKER_USER}
   addgroup ${DOCKER_USER} users
-  apk add --no-cache \
+
+  ln -s /var/cache/apk /etc/apk/cache
+  apk  add \
     git \
     > /dev/null
-  apk add --no-cache --virtual .build-dependencies \
+  apk  add --virtual .build-dependencies \
     libc-dev gcc g++ make \
     > /dev/null
+
   common_run
-  apk del --no-cache .build-dependencies
+
+  apk --purge del .build-dependencies
+  rm -f -- /etc/apk/cache /var/apk/cache/*
 
 else
   printf '\nERROR: Could not determine Linux disto.\n'
