@@ -8,6 +8,16 @@ DOCKER_UID=${DOCKER_UID:-888}
 
 
 common_run() {
+  cd /tmp
+  git clone https://github.com/CMeza99/katello-cvmanager.git
+  cd katello-cvmanager
+  gem build cvmanager.gemspec
+  mkdir -p /tmp/repo/gems
+  cp *.gem /tmp/repo/gems
+  gem install builder
+  cd /tmp/repo
+  gem generate_index
+
   cd /home/hammer
   bundle --no-cache --clean --system
   chown -R hammer:hammer /home/hammer
@@ -56,4 +66,3 @@ else
   printf '\nERROR: Could not determine Linux disto.\n'
   exit 1
 fi
-
