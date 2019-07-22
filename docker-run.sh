@@ -12,7 +12,7 @@ common_run() {
   BUNDLE_CLEAN=true
   BUNDLE_SUPPRESS_INSTALL_USING_MESSAGES=true
 
-  wget -O- https://github.com/CMeza99/katello-cvmanager/tarball/master | tar x -zC /tmp
+  wget -O- https://github.com/CMeza99/katello-cvmanager/tarball/${KCV_COMMIT:-master}| tar x -zC /tmp
   KCV_SOURCE="$(find /tmp -type d -maxdepth 1 -name \*katello-cvmanager\*)"
   cd "${KCV_SOURCE}"
   gem install builder
@@ -23,7 +23,7 @@ common_run() {
   gem generate_index
 
   cd /home/hammer
-  bundle --no-cache --clean --system
+  bundle install
   chown -R hammer:hammer /home/hammer
 
   su ${DOCKER_USER} -c '

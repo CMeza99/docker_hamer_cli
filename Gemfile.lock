@@ -1,0 +1,81 @@
+GEM
+  remote: https://rubygems.org/
+  remote: file:///tmp/repo/
+  specs:
+    apipie-bindings (0.2.3)
+      json (>= 1.2.1)
+      oauth
+      rest-client (>= 1.6.5, < 3.0.0)
+    awesome_print (1.8.0)
+    clamp (1.1.2)
+    cvmanager (0.2)
+      apipie-bindings
+      highline
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
+    fast_gettext (2.0.1)
+    hammer_cli (0.17.1)
+      apipie-bindings (>= 0.2.0)
+      awesome_print
+      clamp (>= 1.1, < 1.2.0)
+      fast_gettext
+      highline
+      locale (>= 2.0.6)
+      logging
+      unicode
+      unicode-display_width
+    hammer_cli_foreman (0.17.1)
+      apipie-bindings (>= 0.2.2)
+      hammer_cli (>= 0.17.0)
+      rest-client (>= 1.8.0, < 3.0.0)
+    hammer_cli_foreman_bootdisk (0.3.0)
+      hammer_cli_foreman (>= 0.1.2)
+    hammer_cli_foreman_docker (0.0.4)
+      hammer_cli_foreman (>= 0.1.2)
+    hammer_cli_foreman_tasks (0.0.13)
+      hammer_cli_foreman (> 0.1.1, < 1.0.0)
+      powerbar (>= 1.0.11, < 3.0)
+    hammer_cli_katello (0.18.0)
+      hammer_cli_foreman (~> 0.17.0)
+      hammer_cli_foreman_bootdisk
+      hammer_cli_foreman_docker
+      hammer_cli_foreman_tasks
+    hashie (3.6.0)
+    highline (2.0.2)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    json (2.2.0)
+    little-plugger (1.1.4)
+    locale (2.1.2)
+    logging (2.2.2)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.10)
+    mime-types (3.2.2)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2019.0331)
+    multi_json (1.13.1)
+    netrc (0.11.0)
+    oauth (0.5.4)
+    powerbar (2.0.1)
+      hashie (>= 1.1.0)
+    rest-client (2.0.2)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.6)
+    unicode (0.4.4.4)
+    unicode-display_width (1.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cvmanager (= 0.2)!
+  hammer_cli (= 0.17.1)!
+  hammer_cli_foreman (= 0.17.1)!
+  hammer_cli_katello (= 0.18.0)!
+
+BUNDLED WITH
+   1.17.2
