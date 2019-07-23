@@ -11,8 +11,8 @@ services:
         RUBY_VER: ${RUBY_VER:-}
         IMG_VARIANT: ${IMG_VARIANT:-alpine}
     environment:
-      FOREMAN_USER: ${FOREMAN_USERNAME:-}
-      FOREMAN_PASS: ${FOREMAN_PASSWORD:-}
+      FOREMAN_USERNAME: ${FOREMAN_USERNAME:-}
+      FOREMAN_PASSWORD: ${FOREMAN_PASSWORD:-}
     volumes:
     - type: bind
       source: ./config
